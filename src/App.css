@@ -1,0 +1,115 @@
+* { 
+  box-sizing: border-box; 
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+}
+
+body { 
+  margin: 0; 
+  background-color: #f0f2f5; /* Softer app-like background */
+  -webkit-font-smoothing: antialiased;
+}
+
+.app-container { 
+  max-width: 1000px; 
+  margin: 0 auto; 
+  min-height: 100vh; 
+  padding-bottom: 30px;
+}
+
+/* --- Status Bar --- */
+.status-bar { 
+  padding: 15px; 
+  text-align: center; 
+  color: white; 
+  font-weight: bold; 
+  font-size: 16px;
+  position: sticky; /* Sticks to top when scrolling on mobile */
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.connected { background-color: #28a745; }
+.disconnected { background-color: #dc3545; }
+
+/* --- Responsive Layout --- */
+/* Default is Mobile: Stack vertically */
+.main-grid { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 15px; 
+  padding: 15px; 
+}
+
+/* Tablet & Desktop: Switch to 2 columns if screen is wider than 768px */
+@media (min-width: 768px) {
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+/* --- Cards / Panels --- */
+.panel, .error-panel { 
+  background: white;
+  border-radius: 12px; 
+  padding: 20px; 
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05); /* Soft modern shadow */
+}
+
+.panel h2, .error-panel h3 { 
+  font-size: 18px; 
+  margin-top: 0; 
+  border-bottom: 2px solid #eee; 
+  padding-bottom: 12px; 
+  color: #333;
+}
+
+/* --- Rows & Alignments --- */
+.row { 
+  display: grid; 
+  grid-template-columns: 2fr 1fr 1fr; 
+  gap: 10px; 
+  align-items: center; 
+  margin-bottom: 12px; 
+  font-size: 15px;
+}
+.read-row { grid-template-columns: 2fr 1fr; border-bottom: 1px solid #f9f9f9; padding-bottom: 5px;}
+
+/* --- Touch-Friendly Inputs & Buttons --- */
+.row input { 
+  font-family: 'Courier New', Courier, monospace; 
+  width: 100%; 
+  padding: 12px 10px; /* Taller for touch */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px; /* 16px prevents iOS Safari from auto-zooming! */
+}
+
+button { 
+  cursor: pointer; 
+  padding: 12px 15px; /* Big touch target */
+  border: none;
+  border-radius: 8px;
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  transition: background-color 0.2s;
+  touch-action: manipulation; /* Removes tap delay on mobile */
+}
+
+button:active { background-color: #0056b3; }
+
+/* --- Typography & Data Formatting --- */
+.mono { 
+  font-family: 'Courier New', Courier, monospace; 
+  font-weight: bold; 
+  text-align: right; 
+  font-size: 16px;
+}
+.val-blue { color: #0056b3; }
+.val-green { color: #28a745; margin: 5px 0; }
+.val-red { color: #dc3545; margin: 5px 0; }
+
+.error-panel { margin: 0 15px 15px 15px; border: 2px solid #ffcccc; background: #fff5f5;}
