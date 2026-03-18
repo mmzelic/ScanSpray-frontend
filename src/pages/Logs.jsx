@@ -32,9 +32,8 @@ export default function Logs() {
               <th>Start/End</th>
               <th>Duration</th>
               <th>Prog</th>
-              <th>Recipe</th>
+              <th>2ks Recipe</th>
               <th>Air (A/F)</th>
-              <th>Flow</th>
               <th>Speed</th>
             </tr>
           </thead>
@@ -47,7 +46,6 @@ export default function Logs() {
                 <td>{log.Program}</td>
                 <td>{log.Recipe}</td>
                 <td>{log.AtomAir}/{log.FanAir}</td>
-                <td>{log.FlowSP}</td>
                 <td>{log.Speed}</td>
               </tr>
             ))}

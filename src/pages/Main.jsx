@@ -108,9 +108,8 @@ export default function Main({ plcStatus, socket }) {
         </section>
 
         <section className="panel">
-          <h2>Gun & Mix</h2>
+          <h2>Graco 2KS</h2>
           <FlagRow name="Mix Mode" reg={2} bit={0} writeBuffer={writeBuffer} onToggle={handleToggle} connected={connected} />
-          <FlagRow name="Gun Trigger" reg={1} bit={9} writeBuffer={writeBuffer} onToggle={handleToggle} connected={connected} />
         </section>
       </div>
     </div>

@@ -22,7 +22,7 @@ export const analog = [
   { name: "Flow Setpoint", reg: 12, min: 50, max: 1500 },
   { name: "Voltage Setpoint", reg: 13, min: 0, max: 100 },
   { name: "Recipe", reg: 20, min: 0, max: 60 },
-  { name: "Robot Speed", reg: 40, min: 50, max: 800 },
+  { name: "Robot Speed (mm/s)", reg: 40, min: 50, max: 800 },
   { name: "Robot Program", reg: 41, min: 0, max: 10 },
   { name: "Gun Open Time (ms)", reg: 43, min: 0, max: 1000 }
 ];
