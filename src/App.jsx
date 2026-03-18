@@ -10,26 +10,49 @@ export default function App() {
   const [auth, setAuth] = useState(false);
   const [status, setStatus] = useState({ 
     connected: false, 
-    isSim: false, // Start false
-    readBuffer: [],
-    writeBuffer: []
+    isSim: false, 
+    readBuffer: new Array(100).fill(0),
+    writeBuffer: new Array(100).fill(0)
   });
+
+  const [socket, setSocket] = useState(null);
 
   useEffect(() => {
     if (!auth) return;
 
-    const socket = io(config.SOCKET_URL);
-    
-    socket.on('connection_status', (connected) => {
-      setStatus(prev => ({ ...prev, connected }));
-    });
+    // Initialize Socket
+    const newSocket = io(config.SOCKET_URL);
+    setSocket(newSocket);
 
-    // CRITICAL: Listen for the simulation flag from your server
-    socket.on('initial_state', (data) => {
+    // 1. Initial State Sync (happens once on connect)
+    newSocket.on('initial_state', (data) => {
+      console.log("Initial State Received:", data);
       setStatus(data); 
     });
 
-    return () => socket.close();
+    // 2. Connection Status (Physical PLC link)
+    newSocket.on('connection_status', (connected) => {
+      setStatus(prev => ({ ...prev, connected }));
+    });
+
+    // 3. READ Update (PLC -> UI)
+    newSocket.on('read_update', (data) => {
+      setStatus(prev => ({ 
+        ...prev, 
+        readBuffer: [...data] // Spread into new array to force React update
+      }));
+    });
+
+    // 4. WRITE Update (UI -> PLC -> UI) - FIXES THE BUTTONS
+    newSocket.on('write_update', (data) => {
+      console.log("Write Buffer Updated from Backend");
+      setStatus(prev => ({ 
+        ...prev, 
+        writeBuffer: [...data] // Spread into new array to force React update
+      }));
+    });
+
+    return () => newSocket.close();
   }, [auth]);
 
   return (
@@ -47,8 +70,17 @@ export default function App() {
         <div className="page-content">
           <Routes>
             <Route path="/login" element={<LoginScreen onLogin={() => setAuth(true)} />} />
-            <Route path="/main" element={auth ? <Main plcStatus={status} /> : <Navigate to="/login" />} />
-            <Route path="/maintenance" element={auth ? <Maintenance plcStatus={status} /> : <Navigate to="/login" />} />
+            
+            {/* Pass status and socket down to children */}
+            <Route 
+                path="/main" 
+                element={auth ? <Main plcStatus={status} socket={socket}/> : <Navigate to="/login" />} 
+            />
+            <Route 
+                path="/maintenance" 
+                element={auth ? <Maintenance plcStatus={status} socket={socket}/> : <Navigate to="/login" />} 
+            />
+            
             <Route path="*" element={<Navigate to={auth ? "/main" : "/login"} />} />
           </Routes>
         </div>
@@ -57,16 +89,15 @@ export default function App() {
   );
 }
 
+// --- LoginScreen remains the same as your provided code ---
 function LoginScreen({ onLogin }) {
   const [username, setUsername] = useState('GMR');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // Use config values for validation
     if (username === config.AUTH_USER && password === config.AUTH_PASS) {
       onLogin();
       navigate('/main');
@@ -77,7 +108,7 @@ function LoginScreen({ onLogin }) {
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
-    if (error) setError(''); // Clear error as soon as user types
+    if (error) setError('');
   };
 
   return (
@@ -87,28 +118,15 @@ function LoginScreen({ onLogin }) {
         <form onSubmit={handleLogin}>
           <div className="login-input-group">
             <label>Operator ID</label>
-            <input 
-              type="text" 
-              value={username} 
-              onChange={(e) => setUsername(e.target.value)} 
-              placeholder="GMR"
-            />
+            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="GMR" />
           </div>
           <div className="login-input-group">
             <label>Security Key</label>
-            <input 
-              type="password" 
-              value={password} 
-              onChange={handlePasswordChange} // Updated this line
-              placeholder="****"
-            />
+            <input type="password" value={password} onChange={handlePasswordChange} placeholder="****" />
           </div>
-          
-          {/* Error Container with fixed height to prevent "jumping" */}
           <div className="error-container">
             {error && <div className="error-msg">{error}</div>}
           </div>
-
           <button type="submit">LOGIN</button>
         </form>
       </div>

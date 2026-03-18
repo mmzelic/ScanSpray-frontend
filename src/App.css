@@ -486,7 +486,7 @@ input.no-spinner {
 /* Add this class to your dashboard-grid if connected is false */
 .system-locked {
     filter: grayscale(0.8);
-    pointer-events: none; /* Disables all clicks globally */
+    /* pointer-events: none; /* Disables all clicks globally */
     opacity: 0.7;
 }
 
@@ -506,4 +506,101 @@ input:disabled {
 button:disabled:hover {
   filter: none;
   transform: none;
+}
+
+.main-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* 2/3 for Left, 1/3 for Right */
+  height: calc(100vh - 60px);
+  gap: 10px;
+  padding: 10px;
+}
+
+/* Operation Zone (Left) */
+.operation-zone {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.program-selector {
+  height: 33%; /* Top 1/3 */
+  background: var(--gmr-dark-gray);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.program-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  flex-grow: 1;
+}
+
+.program-card {
+  border: 2px solid var(--gmr-mid-gray);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  text-align: center;
+  transition: 0.2s;
+}
+
+.program-card.active {
+  border-color: var(--gmr-orange);
+  background: rgba(243, 111, 33, 0.1);
+}
+
+.img-placeholder {
+  height: 80px;
+  background: #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.btn-start-cycle {
+  margin-top: 15px;
+  width: 100%;
+  height: 50px;
+  background: #1a1a1a;
+  color: var(--gmr-orange);
+  border: 2px solid var(--gmr-orange);
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.btn-start-cycle:active:not(:disabled) {
+  background: var(--gmr-orange);
+  color: white;
+}
+
+/* Middle Section */
+.parameters-zone {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.param-group {
+  background: var(--gmr-dark-gray);
+  padding: 15px;
+}
+
+/* Sidebar (Right) */
+.status-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.flag-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+  background: rgba(255,255,255,0.02);
 }

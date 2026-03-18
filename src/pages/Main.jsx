@@ -1,68 +1,129 @@
-import React, { useState, useEffect } from 'react';
-import { io } from 'socket.io-client';
-import config from '../config';
+import React from 'react';
+import { digital, analog } from '../plcDefinitions';
+import InputRow from '../components/InputRow'; // Assuming we moved the logic to a component
 
-export default function Main() {
-  const [status, setStatus] = useState({ readBuffer: Array(100).fill(0), writeBuffer: Array(100).fill(0) });
-  const [socket, setSocket] = useState(null);
+export default function Main({ plcStatus, socket }) {
+  const { readBuffer, writeBuffer, connected } = plcStatus;
 
-  useEffect(() => {
-    const newSocket = io(config.SOCKET_URL);
-    setSocket(newSocket);
-    newSocket.on('read_update', (buf) => setStatus(p => ({ ...p, readBuffer: buf })));
-    newSocket.on('write_update', (buf) => setStatus(p => ({ ...p, writeBuffer: buf })));
-    return () => newSocket.close();
-  }, []);
-
-  // Helper to get specific read values
-  const getVal = (addr, bit = null) => {
-    const raw = status.readBuffer[addr - 200];
-    if (bit !== null) return ((raw >> bit) & 1);
-    return raw;
+  // Helper to trigger PLC commands
+  const handleSet = (reg, val) => socket?.emit('cmd_set', { reg, value: val });
+  const handlePulse = (reg, bit) => {
+    console.log("Attempting Pulse:", reg, bit); // Debug log
+    socket?.emit('cmd_set_bit', { reg, bit, value: 1 });
+    setTimeout(() => socket?.emit('cmd_set_bit', { reg, bit, value: 0 }), 500);
+  };
+  const handleToggle = (reg, bit) => {
+    console.log("Attempting Toggle:", reg, bit); // Debug log
+    socket?.emit('cmd_toggle', { reg, bit });
   };
 
+  const currentProgram = writeBuffer[41];
+
   return (
-    <div className="main-op-container">
-      {/* 1. LARGE STATUS HERO */}
-      <div className="op-hero">
-        <div className="status-card">
-          <label>SYSTEM STATUS</label>
-          <div className={`status-value ${getVal(200, 0) ? 'active' : ''}`}>
-            {getVal(200, 0) ? 'SPRAYING' : 'READY'}
-          </div>
-        </div>
+    <div className="main-layout">
+      {/* LEFT 2/3: PRIMARY CONTROLS */}
+      <div className="operation-zone">
         
-        <div className="status-card">
-          <label>ACTIVE RECIPE</label>
-          <div className="status-value orange">{status.writeBuffer[20] || '--'}</div>
-        </div>
+        {/* TOP 1/3: PROGRAM SELECTION */}
+        <section className="program-selector">
+          <h2>Robot Program Selection</h2>
+          <div className="program-grid">
+            {[1, 2, 3].map((progId) => (
+              <div 
+                key={progId}
+                className={`program-card ${currentProgram === progId ? 'active' : ''} ${!connected ? 'locked' : ''}`}
+                onClick={() => connected && handleSet(41, progId)}
+              >
+                <div className="img-placeholder">
+                   {/* Replace with <img src={`/assets/prog${progId}.png`} /> */}
+                   <span>PROG {progId}</span>
+                </div>
+                <div className="selection-indicator">
+                  {currentProgram === progId ? "● SELECTED" : "SELECT"}
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          {/* START BUTTON (Below Selection) */}
+          <button 
+            className="btn-start-cycle"
+            disabled={!connected}
+            onClick={() => handlePulse(42, 1)}
+          >
+            START ROBOT CYCLE
+          </button>
+        </section>
+
+        {/* MIDDLE SECTION: AIR & PARAMETERS */}
+        <section className="parameters-zone">
+          <div className="param-group">
+             <h3>Air Controls</h3>
+             <InputRow {...analog[0]} currentVal={writeBuffer[10]} onSet={handleSet} connected={connected} />
+             <InputRow {...analog[1]} currentVal={writeBuffer[11]} onSet={handleSet} connected={connected} />
+          </div>
+          <div className="param-group">
+             <h3>Robot Motion</h3>
+             <InputRow {...analog[5]} currentVal={writeBuffer[40]} onSet={handleSet} connected={connected} /> {/* Speed */}
+             <InputRow {...analog[7]} currentVal={writeBuffer[43]} onSet={handleSet} connected={connected} /> {/* Open Time */}
+          </div>
+        </section>
+
+        {/* BOTTOM: ALERTS */}
+        <section className="alerts-zone">
+          <h2>System Alerts</h2>
+          <div className="alert-box">
+            {/* Logic for E-Stop or Safe to Move */}
+            {((readBuffer[0] >> 0) & 1) ? <span className="err">E-STOP ACTIVE</span> : <span className="ok">SYSTEM NOMINAL</span>}
+          </div>
+        </section>
       </div>
 
-      {/* 2. CRITICAL TELEMETRY GRID */}
-      <div className="telemetry-grid">
-        <div className="tele-box">
-          <label>ATOM AIR</label>
-          <span>{status.writeBuffer[10]} <small>PSI</small></span>
-        </div>
-        <div className="tele-box">
-          <label>FAN AIR</label>
-          <span>{status.writeBuffer[11]} <small>PSI</small></span>
-        </div>
-        <div className="tele-box">
-          <label>VOLTAGE</label>
-          <span>{status.writeBuffer[13]} <small>kV</small></span>
-        </div>
-      </div>
+      {/* RIGHT 1/3: FLAGS & MODES */}
+      <div className="status-sidebar">
+        <section className="panel">
+          <h2>System Flags</h2>
+          {[
+            { name: "Flag 1", reg: 42, bit: 2 },
+            { name: "Flag 2", reg: 42, bit: 3 },
+            { name: "Flag 3", reg: 42, bit: 4 },
+            { name: "Flag 8", reg: 42, bit: 5 }
+          ].map((f, i) => {
+            const isSet = (writeBuffer[f.reg] >> f.bit) & 1;
+            return (
+              <div key={i} className="flag-row">
+                <span>{f.name}</span>
+                <button 
+                  className={isSet ? "btn-on" : "btn-off"}
+                  onClick={() => handleToggle(f.reg, f.bit)}
+                  disabled={!connected}
+                >{isSet ? "ON" : "OFF"}</button>
+              </div>
+            );
+          })}
+        </section>
 
-      {/* 3. ALERTS / NOTIFICATIONS AREA */}
-      <div className="alerts-panel">
-        <h3>SYSTEM ALERTS</h3>
-        {getVal(200, 1) ? (
-          <div className="alert-item error">E-STOP ACTIVE</div>
-        ) : (
-          <div className="alert-item nominal">ALL SYSTEMS NOMINAL</div>
-        )}
+        <section className="panel">
+          <h2>Gun & Mix</h2>
+          <FlagRow name="Mix Mode" reg={2} bit={0} writeBuffer={writeBuffer} onToggle={handleToggle} connected={connected} />
+          <FlagRow name="Gun Trigger" reg={1} bit={9} writeBuffer={writeBuffer} onToggle={handleToggle} connected={connected} />
+        </section>
       </div>
+    </div>
+  );
+}
+
+// Small helper for the sidebar rows
+function FlagRow({ name, reg, bit, writeBuffer, onToggle, connected }) {
+  const isSet = (writeBuffer[reg] >> bit) & 1;
+  return (
+    <div className="flag-row">
+      <span>{name}</span>
+      <button 
+        className={isSet ? "btn-on" : "btn-off"}
+        onClick={() => onToggle(reg, bit)}
+        disabled={!connected}
+      >{isSet ? "ON" : "OFF"}</button>
     </div>
   );
 }
