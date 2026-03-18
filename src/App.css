@@ -520,3 +520,136 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   color: var(--gmr-white);
   text-transform: uppercase;
 }
+
+/* --- PROGRAM SELECTION REFRESH --- */
+.program-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px; /* Clean gap between cards */
+  margin-top: 15px;
+}
+
+.program-card {
+  border: 1px solid var(--gmr-mid-gray);
+  border-radius: 4px; /* Slight round for definition */
+  background: var(--gmr-dark-gray); /* Dark background so images pop */
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s ease;
+  overflow: hidden; /* Important for active border */
+}
+
+/* Bright orange highlight when active */
+.program-card.active {
+  border: 2px solid var(--gmr-orange);
+  box-shadow: 0 0 15px rgba(243, 111, 33, 0.3);
+}
+
+/* THE CONTAINER FOR THE IMAGE */
+.img-placeholder {
+  height: 120px; /* DEFINES THE HEIGHT of the box */
+  display: flex;
+  align-items: center; /* V-Center image */
+  justify-content: center; /* H-Center image */
+  background: #050505; /* Blacker background for the image to rest on */
+  padding: 5px; /* Tiny margin so the image doesn't hit the border */
+}
+
+/* THE IMAGE ITSELF */
+.img-placeholder img {
+  max-width: 100%; /* Can't get wider than box */
+  max-height: 100%; /* Can't get taller than box */
+  object-fit: contain; /* CRITICAL: Resizes the WHOLE image to fit inside */
+  object-position: center; /* Always centers it vertically/horizontally */
+}
+
+/* Hide the placeholder text (PROG 1) if an image is loading */
+.img-placeholder span {
+  display: none;
+}
+
+/* The Label Overlays (e.g., PROGRAM 1, SELECT) */
+.prog-label {
+  font-size: 10px;
+  color: var(--gmr-light-gray);
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.selection-indicator {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  background: var(--gmr-black);
+}
+
+.program-card.active .selection-indicator {
+  color: var(--gmr-orange);
+}
+
+/* --- THE CARD CONTAINER --- */
+.program-card {
+  display: flex;
+  flex-direction: column; /* Stacks elements: Image -> Label -> Button */
+  border: 1px solid var(--gmr-mid-gray);
+  background: var(--gmr-black);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  height: 200px; /* Fixed height for the whole card to keep grid even */
+  overflow: hidden;
+}
+
+.program-card.active {
+  border: 2px solid var(--gmr-orange);
+  box-shadow: 0 0 15px rgba(243, 111, 33, 0.2);
+}
+
+/* --- THE IMAGE AREA (Top Section) --- */
+.img-placeholder {
+  flex: 1; /* This tells the image to take up all AVAILABLE space */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #050505;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.img-placeholder img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Shows the whole robot without cropping */
+}
+
+/* --- THE TEXT OVERLAYS (Middle & Bottom) --- */
+.prog-label {
+  background: #111; /* Dark bar for the name */
+  color: var(--gmr-white);
+  font-size: 10px;
+  font-weight: 800;
+  padding: 6px 0;
+  text-transform: uppercase;
+  border-top: 1px solid var(--gmr-mid-gray);
+}
+
+.selection-indicator {
+  background: #000;
+  color: var(--gmr-muted);
+  font-size: 11px;
+  font-weight: 900;
+  padding: 10px 0;
+  text-transform: uppercase;
+  border-top: 1px solid #222;
+}
+
+/* Active State Colors */
+.program-card.active .prog-label {
+  color: var(--gmr-orange);
+}
+
+.program-card.active .selection-indicator {
+  background: var(--gmr-orange);
+  color: white;
+}
