@@ -485,3 +485,38 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   padding: 20px 25px; /* Added more horizontal padding */
   border-radius: 4px;
 }
+
+.img-container {
+  height: 120px; /* Increased height for better visibility */
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* This crops the image to fill the box perfectly */
+  opacity: 0.7; /* Dimmed slightly to look industrial */
+  transition: opacity 0.3s ease;
+}
+
+.program-card.active img {
+  opacity: 1; /* Brighten when selected */
+}
+
+.prog-label {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 2px 8px;
+  font-size: 10px;
+  font-weight: 900;
+  color: var(--gmr-white);
+  text-transform: uppercase;
+}
