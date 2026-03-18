@@ -7,7 +7,13 @@ export const digital = [
   { name: "Color Change Req", reg: 2, bit: 1, type: "pulse" },
   { name: "E-Stat Enable", reg: 3, bit: 0, type: "toggle" },
   { name: "E-Stat Err Reset", reg: 3, bit: 1, type: "pulse" },
-  { name: "E-Stat Remote En", reg: 3, bit: 2, type: "toggle" }
+  { name: "E-Stat Remote En", reg: 3, bit: 2, type: "toggle" },
+  { name: "Robot Reset", reg: 42, bit: 0, type: "pulse" },
+  { name: "Start Robot Cycle", reg: 42, bit: 1, type: "pulse" },
+  { name: "Flag1", reg: 42, bit: 2, type: "toggle" },
+  { name: "Flag2", reg: 42, bit: 3, type: "toggle" },
+  { name: "Flag3", reg: 42, bit: 4, type: "toggle" },
+  { name: "Flag8", reg: 42, bit: 5, type: "toggle" }
 ];
 
 export const analog = [
@@ -16,6 +22,9 @@ export const analog = [
   { name: "Flow Setpoint", reg: 12, min: 50, max: 1500 },
   { name: "Voltage Setpoint", reg: 13, min: 0, max: 100 },
   { name: "Recipe", reg: 20, min: 0, max: 60 },
+  { name: "Robot Speed", reg: 40, min: 50, max: 800 },
+  { name: "Robot Program", reg: 41, min: 0, max: 10 },
+  { name: "Gun Open Time (ms)", reg: 43, min: 0, max: 1000 }
 ];
 
 export const reads = [
@@ -35,4 +44,5 @@ export const reads = [
   { name: "Voltage FB", addr: 223, bit: null },
   { name: "Recipe Echo", addr: 230, bit: null },
   { name: "Active Recipe", addr: 231, bit: null },
+  { name: "Robot At Home", addr: 250, bit: 0 },
 ];
