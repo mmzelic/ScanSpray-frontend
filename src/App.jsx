@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'r
 import Header from './components/Header';
 import Maintenance from './pages/Maintenance';
 import Main from './pages/Main';
+import Logs from './pages/Logs';
 import config from './config';
 import { io } from 'socket.io-client';
 
@@ -80,6 +81,7 @@ export default function App() {
                 path="/maintenance" 
                 element={auth ? <Maintenance plcStatus={status} socket={socket}/> : <Navigate to="/login" />} 
             />
+            <Route path="/logs" element={auth ? <Logs socket={socket}/> : <Navigate to="/login" />} />
             
             <Route path="*" element={<Navigate to={auth ? "/main" : "/login"} />} />
           </Routes>

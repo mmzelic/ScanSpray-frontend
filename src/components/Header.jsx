@@ -15,38 +15,28 @@ export default function Header({ user, connected, isSim }) {
     <header className="status-bar">
       <div className="brand-section">
         <div className="brand-name">SCAN<span>&</span>SPRAY™</div>
-        
-        {/* Only show if true. If PLC is live, isSim should be false */}
-        {isSim === true && <span className="sim-indicator">SIMULATION MODE</span>}
-        
-        <div className={`connection-status ${connected ? 'connected' : 'disconnected'}`}>
-          {connected ? '● SYSTEM ONLINE' : '○ SYSTEM OFFLINE'}
-        </div>
       </div>
 
-      <nav className="nav-panel">
-        <div className="user-info">
-          <span className="nav-label">OP:</span>
-          <span className="nav-value">{user}</span>
-        </div>
-        
-        {/* Vertical Separator */}
-        <div className="nav-divider"></div>
-
-        <div className="time-info">
-          <span className="nav-value">{time.toLocaleTimeString([], {hour12: false})}</span>
-          <span className="nav-date">{time.toLocaleDateString([], {month: 'short', day: '2-digit'})}</span>
+      <div className="right-controls" style={{ display: 'flex', alignItems: 'center' }}>
+        <div className="status-indicators">
+          {isSim && <span className="sim-indicator">SIMULATION</span>}
+          <div className={`connection-status ${connected ? 'connected' : 'disconnected'}`}>
+            {connected ? '● ONLINE' : '○ OFFLINE'}
+          </div>
         </div>
 
-        {/* Maintenance Toggle Button */}
-        <button 
-          className={`gear-btn ${location.pathname === '/maintenance' ? 'active' : ''}`}
-          onClick={() => navigate(location.pathname === '/maintenance' ? '/main' : '/maintenance')}
-          title="Maintenance & Troubleshooting"
-        >
-          ⚙
-        </button>
-      </nav>
+        <nav className="header-nav">
+          <button className={location.pathname === '/main' ? 'active' : ''} onClick={() => navigate('/main')}>
+            <span>▤</span>
+          </button>
+          <button className={location.pathname === '/logs' ? 'active' : ''} onClick={() => navigate('/logs')}>
+            <span>📋</span>
+          </button>
+          <button className={location.pathname === '/maintenance' ? 'active' : ''} onClick={() => navigate('/maintenance')}>
+            <span>⚙</span>
+          </button>
+        </nav>
+      </div>
     </header>
   );
 }
