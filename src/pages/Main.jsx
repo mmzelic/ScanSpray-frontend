@@ -34,9 +34,14 @@ export default function Main({ plcStatus, socket }) {
                 className={`program-card ${currentProgram === progId ? 'active' : ''} ${!connected ? 'locked' : ''}`}
                 onClick={() => connected && handleSet(41, progId)}
               >
-                <div className="img-placeholder">
-                   {/* Replace with <img src={`/assets/prog${progId}.png`} /> */}
-                   <span>PROG {progId}</span>
+                <div className="img-container">
+                  <img 
+                    src={`/assets/prog${progId}.png`} 
+                    alt={`Program ${progId}`}
+                    onError={(e) => { e.target.style.display = 'none'; }} // Hide if image fails to load
+                  />
+                  {/* Show text overlay only if you want it, otherwise remove the span below */}
+                  <span className="prog-label">PROGRAM {progId}</span>
                 </div>
                 <div className="selection-indicator">
                   {currentProgram === progId ? "● SELECTED" : "SELECT"}
@@ -45,7 +50,6 @@ export default function Main({ plcStatus, socket }) {
             ))}
           </div>
           
-          {/* START BUTTON (Below Selection) */}
           <button 
             className="btn-start-cycle"
             disabled={!connected}
