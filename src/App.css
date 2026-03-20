@@ -221,12 +221,7 @@ html, body {
   color: var(--gmr-muted);
 }
 
-.selection-indicator {
-  font-size: 9px;
-  font-weight: 800;
-  padding: 5px 0;
-  text-transform: uppercase;
-}
+
 
 .btn-start-cycle {
   width: 100%;
@@ -516,6 +511,10 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 }
 
 .img-container {
+  width: 100%;       /* Fill the card width */
+  height: 240px;
+  position: relative;
+  border-radius: 4px;
   background: black;
   display: flex;
   padding: 4px;
@@ -532,10 +531,18 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   object-fit: cover; /* This crops the image to fill the box perfectly */
   opacity: 0.5; /* Dimmed slightly to look industrial */
   transition: opacity 0.3s ease;
+  display: block;
 }
 
 .program-card.active img {
   opacity: 1; /* Brighten when selected */
+}
+
+
+/* Bright orange highlight when active */
+.program-card.active {
+  border: 2px solid var(--gmr-orange);
+  box-shadow: 0 0 15px rgba(243, 111, 33, 0.3);
 }
 
 
@@ -551,12 +558,6 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   margin-top: 15px;
 }
 
-
-/* Bright orange highlight when active */
-.program-card.active {
-  border: 2px solid var(--gmr-orange);
-  box-shadow: 0 0 15px rgba(243, 111, 33, 0.3);
-}
 
 /* THE CONTAINER FOR THE IMAGE */
 .img-placeholder {
@@ -585,12 +586,14 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
 
 .selection-indicator {
-  font-size: 11px;
+  font-size: 9px;
   font-weight: 800;
   text-transform: uppercase;
-  padding: 8px 0;
+  padding: 6px;
   border-top: 1px solid rgba(255,255,255,0.05);
   background: var(--gmr-black);
+  background: #000;
+  color: var(--gmr-muted);
 }
 
 
@@ -640,15 +643,7 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   left: 5px;
 }
 
-.selection-indicator {
-  background: #000;
-  color: var(--gmr-muted);
-  font-size: 11px;
-  font-weight: 900;
-  padding: 10px 0;
-  text-transform: uppercase;
-  border-top: 1px solid #222;
-}
+
 
 /* Active State Colors */
 .program-card.active .prog-label {
@@ -705,21 +700,28 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
 @media (max-width: 1024px) {
   
-  .prog-label {
-    font-size: 9px; /* Shrunk for tablet */
-    padding: 4px 0;
+ .parameters-zone {
+    display: flex;
+    flex-direction: column; /* Stack vertically instead of side-by-side */
+    gap: 15px;
+    width: 100%;
   }
 
-  .selection-indicator {
-    font-size: 9px;
-    padding: 6px 0;
+  .param-group {
+    width: 100% !important; /* Force full width */
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 15px;
+    overflow: hidden; /* Prevent internal elements from pushing out */
   }
-  
-  .program-selector h2 {
-    font-size: 14px;
-    margin-bottom: 10px;
+
+  /* Ensure the InputRow (slider/input) doesn't overflow */
+  .input-row {
+    display: flex;
+    flex-wrap: wrap; /* Allow the input to drop below the label if needed */
+    justify-content: space-between;
+    gap: 10px;
   }
-  
 }
 
 .ss-container {
