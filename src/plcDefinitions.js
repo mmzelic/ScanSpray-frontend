@@ -13,13 +13,14 @@ export const digital = [
   { name: "Flag1", reg: 42, bit: 2, type: "toggle" },
   { name: "Flag2", reg: 42, bit: 3, type: "toggle" },
   { name: "Flag3", reg: 42, bit: 4, type: "toggle" },
-  { name: "Flag8", reg: 42, bit: 5, type: "toggle" }
+  { name: "Flag8", reg: 42, bit: 5, type: "toggle" },
+  { name: "SSEnabled", reg: 42, bit: 6, type: "toggle" }
 ];
 
 export const analog = [
   { name: "Atomizing Air", reg: 10, min: 0, max: 100 },
   { name: "Fan Air", reg: 11, min: 0, max: 100 },
-  { name: "Flow Setpoint", reg: 12, min: 50, max: 1500 },
+  { name: "Flow Setpoint", reg: 12, min: 50 , max: 1500 },
   { name: "Voltage Setpoint", reg: 13, min: 0, max: 100 },
   { name: "Recipe", reg: 20, min: 0, max: 60 },
   { name: "Robot Speed (mm/s)", reg: 40, min: 50, max: 800 },

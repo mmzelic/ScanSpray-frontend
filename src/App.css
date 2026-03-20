@@ -721,3 +721,17 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   }
   
 }
+
+.ss-container {
+  width: 100%;
+}
+
+.ss-header h2 {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+}
