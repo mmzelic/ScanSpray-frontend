@@ -17,7 +17,7 @@ export default function InputRow({ name, reg, currentVal, min, max, onSet, conne
   return (
     <div className="row">
       <div className="label-group-inline" style={{ opacity: connected ? 1 : 0.5 }}>
-        <span className="addr-tag">[{reg}]</span>
+        {reg && <span className="addr-tag">[{reg}]</span>}
         <span className="label">{name}</span>
         <span className="limit-hint-inline">({min}-{max})</span>
       </div>

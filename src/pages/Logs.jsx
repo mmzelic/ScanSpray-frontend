@@ -25,7 +25,7 @@ export default function Logs() {
       </div>
       
       <div className="table-wrapper">
-        <table>
+        <table className="log-table">
           <thead>
             <tr>
               <th>Date</th>

@@ -240,10 +240,6 @@ html, body {
   color: white;
 }
 
-.parameters-zone { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-
-.param-group { background: var(--gmr-dark-gray); padding: 15px; border: 1px solid var(--gmr-mid-gray); }
-
 /* --- LOGS PAGE --- */
 .logs-container { padding: 20px; }
 .logs-header { display: flex; justify-content: space-between; margin-bottom: 15px; }
@@ -260,7 +256,7 @@ th {
   background: #1a1a1a;
   color: var(--gmr-orange);
   text-transform: uppercase;
-  padding: 12px;
+  padding: 2px;
   text-align: center;
   position: sticky;
   top: 0; 
@@ -374,11 +370,7 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   border-radius: 4px;
 }
 
-.parameters-zone {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
+
 
 .param-group h3 {
   margin-top: 0;
@@ -449,15 +441,6 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 .alert-box .err { color: var(--gmr-error); text-shadow: 0 0 10px rgba(255, 75, 43, 0.3); }
 .alert-box .ok { color: var(--gmr-success); }
 
-/* --- INPUT ROW SPACING (Inside Air/Motion) --- */
-.param-group .row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-  width: 100%;
-}
-
 .param-group .control-group {
   display: flex;
   gap: 8px;
@@ -472,6 +455,8 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   padding: 12px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   white-space: nowrap; /* PREVENTS TEXT WRAPPING */
+  margin-bottom: 15px;
+  width: 100%;
 }
 
 /* Make sure the label group doesn't shrink and stays on one line */
@@ -607,6 +592,7 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   border: 1px solid var(--gmr-mid-gray);
   background: var(--gmr-black);
   overflow: hidden;
+  border-radius: 4px;
 }
 
 /* --- THE IMAGE AREA (Top Section) --- */
@@ -702,12 +688,14 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   
  .parameters-zone {
     display: flex;
-    flex-direction: column; /* Stack vertically instead of side-by-side */
+    flex-direction: row; /* Stack vertically instead of side-by-side */
     gap: 15px;
     width: 100%;
   }
 
   .param-group {
+    flex: 1;
+    min-width: 0; /* Prevents the box from pushing past its 50% limit */
     width: 100% !important; /* Force full width */
     max-width: 100%;
     box-sizing: border-box;
@@ -721,6 +709,12 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
     flex-wrap: wrap; /* Allow the input to drop below the label if needed */
     justify-content: space-between;
     gap: 10px;
+    font-size: 12px;
+    gap: 5px;
+  }
+
+  .input-row input[type="range"] {
+    width: 100%; /* Ensure slider uses all available narrow space */
   }
 }
 
@@ -736,4 +730,34 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   padding-bottom: 8px;
   display: flex;
   justify-content: space-between;
+}
+
+/* Target the first row of your table */
+.log-table thead tr, 
+.log-table {
+  background-color: #1a1a1a; /* Match your sidebar/panel color */
+  position: sticky;          /* Recommended so it stays visible while scrolling */
+  top: 0;
+  z-index: 10;
+  border-radius: 4px;
+}
+
+/* Ensure the header text has proper padding so it doesn't look crowded */
+.log-table th {
+  padding: 10px 5px;
+  color: var(--gmr-orange); /* Use your orange variable */
+  text-align: left;
+  border-bottom: 2px solid #333;
+}
+
+.log-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* Forces columns to respect width */
+}
+
+.log-table th, .log-table td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* Prevents text from wrapping and breaking height */
 }
