@@ -19,7 +19,7 @@ const SSEnabled = ({ ssEnabled, timeLeft, onToggle, connected }) => {
           justifyContent: 'space-between', 
           width: '100%' 
         }}>
-          <span>GRACO 2KS</span>
+          <span>Other controls</span>
           {ssEnabled === 1 && (
             <span style={{ fontFamily: 'monospace', fontWeight: 'bold' }}>
               ({formatTime(timeLeft)})
