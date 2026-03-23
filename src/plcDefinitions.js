@@ -14,7 +14,7 @@ export const digital = [
   { name: "Flag2", reg: 42, bit: 3, type: "toggle" },
   { name: "Flag3", reg: 42, bit: 4, type: "toggle" },
   { name: "Flag8", reg: 42, bit: 5, type: "toggle" },
-  { name: "SSEnabled", reg: 42, bit: 6, type: "toggle" }
+  { name: "plcEnabled", reg: 42, bit: 6, type: "toggle" }
 ];
 
 export const analog = [

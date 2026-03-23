@@ -26,7 +26,7 @@ export default function LoginScreen({ onLogin }) {
   return (
     <div className="login-overlay">
       <div className="login-card">
-        <h1>SCAN<span>&</span>SPRAY™</h1>
+        <h1>PLC<span>S</span>pray™</h1>
         <form onSubmit={handleLogin}>
           <div className="login-input-group">
             <label>Operator ID</label>

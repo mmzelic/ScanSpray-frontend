@@ -14,7 +14,7 @@ export default function Header({ user, connected, isSim }) {
   return (
     <header className="status-bar">
       <div className="brand-section">
-        <div className="brand-name">SCAN<span>&</span>SPRAY™</div>
+        <div className="brand-name">PLC<span>S</span>pray™</div>
       </div>
 
       <div className="right-controls" style={{ display: 'flex', alignItems: 'center' }}>

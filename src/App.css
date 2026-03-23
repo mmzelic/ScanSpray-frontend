@@ -226,13 +226,18 @@ html, body {
 .btn-start-cycle {
   width: 100%;
   height: 50px;
-  background: #1a1a1a;
   color: var(--gmr-orange);
   border: 2px solid var(--gmr-orange);
   font-size: 16px;
   font-weight: 900;
   cursor: pointer;
   margin-top: 10px;
+  /* --- START BUTTON SPACING --- */
+  margin-top: 10px;
+  background: transparent;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 .btn-start-cycle:active:not(:disabled) {
@@ -402,20 +407,7 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   color: var(--gmr-light-gray);
 }
 
-/* --- START BUTTON SPACING --- */
-.btn-start-cycle {
-  width: 100%;
-  height: 55px;
-  margin-top: 10px;
-  background: transparent;
-  color: var(--gmr-orange);
-  border: 2px solid var(--gmr-orange);
-  font-size: 18px;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  cursor: pointer;
-}
+
 
 /* --- ALERTS SECTION (Centered & Boxed) --- */
 .alerts-zone {
@@ -668,6 +660,10 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
     padding: 20px;
     box-sizing: border-box; /* Includes padding in the width calculation */
   }
+
+  .parameters-zone :first-child{
+    margin-bottom: 20px;
+  }
 }
 
 
@@ -716,13 +712,37 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   .input-row input[type="range"] {
     width: 100%; /* Ensure slider uses all available narrow space */
   }
+
+  .status-sidebar {
+    display: flex !important;
+    flex-direction: row !important; /* Force side-by-side */
+    gap: 15px;
+    width: 100%;
+    margin-top: 20px; /* Space it from the section above */
+    align-items: stretch; /* Makes both boxes the same height */
+  }
+
+  .status-sidebar .panel {
+    flex: 1; /* Both boxes take up exactly 50% */
+    margin-bottom: 0; /* Remove bottom margin since they are now side-by-side */
+    min-width: 0; /* Prevent content from pushing the box wider than 50% */
+  }
+
+  /* Adjust internal rows for the narrower side-by-side columns */
+  .flag-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 13px; /* Slightly smaller text to fit labels */
+  }
 }
 
-.ss-container {
+.plc-container {
   width: 100%;
 }
 
-.ss-header h2 {
+.plc-header h2 {
   font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -746,7 +766,7 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 .log-table th {
   padding: 10px 5px;
   color: var(--gmr-orange); /* Use your orange variable */
-  text-align: left;
+  text-align: center;
   border-bottom: 2px solid #333;
 }
 

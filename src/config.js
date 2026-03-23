@@ -13,7 +13,7 @@ const config = {
     AUTH_PASS: '1234',
     OPERATOR_ID: 'GMR-User', // This is what shows on the Dashboard
 
-    SS_TIMEOUT_MINUTES: 30, // Define the 10-minute timeout here
+    PLC_TIMEOUT_MINUTES: 60, // Define the 10-minute timeout here
 
 };
 

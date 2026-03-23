@@ -43,7 +43,7 @@ export default function Maintenance() {
 
   const getReadValue = (r) => {
     const raw = status.readBuffer[r.addr - 200];
-    if (r.bit !== null) return ((raw >> r.bit) & 1) ? 'ACTIVE' : 'IDLE';
+    if (r.bit !== null) return ((raw >> r.bit) & 1) ? 'True' : 'False';
     return raw;
   };
 

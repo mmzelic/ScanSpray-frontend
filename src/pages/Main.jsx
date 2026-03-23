@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { digital, analog } from '../plcDefinitions';
-import SSEnabled from '../components/SSEnabled'; 
+import PLCEnabled from '../components/PLCEnabled'; 
 import InputRow from '../components/InputRow';
 import config from '../config';
 
 export default function Main({ plcStatus, socket }) {
   const { readBuffer, writeBuffer, connected } = plcStatus;
 
+  const robotInCycle = (plcStatus.readBuffer[250] >> 1) & 1;
+
   // --- TIMER STATE (Moved here to prevent resets) ---
-  const [ssTimer, setSsTimer] = useState(config.SS_TIMEOUT_MINUTES * 60);
+  const [plcTimer, setplcTimer] = useState(config.PLC_TIMEOUT_MINUTES * 60);
 
   // --- PLC Data Extraction ---
   const currentProgram = writeBuffer[41];
-  const ssEnabledBit = (writeBuffer[42] >> 6) & 1;
+  const plcEnabledBit = (writeBuffer[42] >> 6) & 1;
 
   // --- PLC Handlers ---
   const handleSet = (reg, val) => socket?.emit('cmd_set', { reg, value: val });
@@ -25,27 +27,27 @@ export default function Main({ plcStatus, socket }) {
   useEffect(() => {
     let interval = null;
 
-    if (ssEnabledBit === 1) {
+    if (plcEnabledBit === 1) {
       interval = setInterval(() => {
-        setSsTimer((prev) => {
+        setplcTimer((prev) => {
           if (prev <= 1) {
             // FORCE WRITE 0 (Don't use toggle here)
             // This tells the backend specifically "Set this bit to 0"
             socket?.emit('cmd_set_bit', { reg: 42, bit: 6, value: 0 });
             
             clearInterval(interval);
-            return config.SS_TIMEOUT_MINUTES * 60;
+            return config.PLC_TIMEOUT_MINUTES * 60;
           }
           return prev - 1;
         });
       }, 1000);
     } else {
       if (interval) clearInterval(interval);
-      setSsTimer(config.SS_TIMEOUT_MINUTES * 60);
+      setplcTimer(config.PLC_TIMEOUT_MINUTES * 60);
     }
 
     return () => clearInterval(interval);
-  }, [ssEnabledBit, socket]); // Added socket to dependencies
+  }, [plcEnabledBit, socket]); // Added socket to dependencies
 
   return (
     <div className="main-layout">
@@ -70,13 +72,13 @@ export default function Main({ plcStatus, socket }) {
               </div>
             ))}
           </div>
-          <button className="btn-start-cycle" disabled={!connected} onClick={() => handlePulse(42, 1)}>
+          <button className="btn-start-cycle" disabled={!connected && !robotInCycle && !plcEnabledBit} onClick={() => handlePulse(42, 1)}>
             START ROBOT CYCLE
           </button>
         </section>
 
         <section className="parameters-zone">
-          <div className="param-group">
+          <div className="param-group" >
              <h3>Air Controls</h3>
              <InputRow name={analog[0].name} min={analog[0].min} max={analog[0].max} currentVal={writeBuffer[10]} onSet={handleSet} connected={connected} />
              <InputRow name={analog[1].name} min={analog[1].min} max={analog[1].max}  currentVal={writeBuffer[11]} onSet={handleSet} connected={connected} />
@@ -91,7 +93,7 @@ export default function Main({ plcStatus, socket }) {
         <section className="alerts-zone">
           <h2>System Alerts</h2>
           <div className="alert-box">
-            {((readBuffer[0] >> 0) & 1) ? <span className="err">E-STOP ACTIVE</span> : <span className="ok">SYSTEM NOMINAL</span>}
+            {((readBuffer[0] >> 0) & 0) ? <span className="err">E-STOP ACTIVE</span> : <span className="ok">No Faults</span>}
           </div>
         </section>
       </div>
@@ -120,9 +122,9 @@ export default function Main({ plcStatus, socket }) {
 
         {/* GRACO PANEL */}
         <section className="panel graco-panel">
-          <SSEnabled 
-            ssEnabled={ssEnabledBit} 
-            timeLeft={ssTimer} 
+          <PLCEnabled 
+            plcEnabled={plcEnabledBit} 
+            timeLeft={plcTimer} 
             onToggle={() => handleToggle(42, 6)} 
             connected={connected}
           />
