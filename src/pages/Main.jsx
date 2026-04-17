@@ -80,13 +80,13 @@ export default function Main({ plcStatus, socket }) {
         <section className="parameters-zone">
           <div className="param-group" >
              <h3>Air Controls</h3>
-             <InputRow name={analog[0].name} min={analog[0].min} max={analog[0].max} currentVal={writeBuffer[10]} onSet={handleSet} connected={connected} />
-             <InputRow name={analog[1].name} min={analog[1].min} max={analog[1].max}  currentVal={writeBuffer[11]} onSet={handleSet} connected={connected} />
+             <InputRow name={analog[0].name} reg={analog[0].reg} min={analog[0].min} max={analog[0].max} currentVal={writeBuffer[10]} onSet={handleSet} connected={connected} />
+             <InputRow name={analog[1].name} reg={analog[1].reg} min={analog[1].min} max={analog[1].max}  currentVal={writeBuffer[11]} onSet={handleSet} connected={connected} />
           </div>
           <div className="param-group">
              <h3>Robot Motion</h3>
-             <InputRow name={analog[5].name} min={analog[5].min} max={analog[5].max}  currentVal={writeBuffer[40]} onSet={handleSet} connected={connected} />
-             <InputRow name={analog[7].name} min={analog[7].min} max={analog[7].max}  currentVal={writeBuffer[43]} onSet={handleSet} connected={connected} />
+             <InputRow name={analog[5].name} reg={analog[5].reg} min={analog[5].min} max={analog[5].max}  currentVal={writeBuffer[40]} onSet={handleSet} connected={connected} />
+             <InputRow name={analog[7].name} reg={analog[7].reg} min={analog[7].min} max={analog[7].max}  currentVal={writeBuffer[43]} onSet={handleSet} connected={connected} />
           </div>
         </section>
 
