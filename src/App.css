@@ -357,7 +357,6 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   margin: 0;
   display: flex;
   flex-direction: column; /* For Tablet/Mobile */
-  gap: 20px;
   padding: 15px;
 }
 

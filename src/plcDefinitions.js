@@ -46,5 +46,6 @@ export const reads = [
   { name: "Recipe Echo", addr: 230, bit: null },
   { name: "Active Recipe", addr: 231, bit: null },
   { name: "Robot At Home", addr: 250, bit: 0 },
-  { name: "Robot Cycle Complete", addr: 250, bit: 1 }
+  { name: "Robot Cycle Complete", addr: 250, bit: 1 },
+  { name: "PLC Version", addr: 299, bit: null }
 ];
