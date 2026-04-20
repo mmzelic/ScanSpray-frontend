@@ -247,7 +247,172 @@ html, body {
 
 /* --- LOGS PAGE --- */
 .logs-container { padding: 20px; }
-.logs-header { display: flex; justify-content: space-between; margin-bottom: 15px; }
+.logs-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+
+.btn-refresh {
+  background: transparent;
+  border: 1px solid var(--gmr-mid-gray);
+  color: var(--gmr-muted);
+  padding: 6px 16px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.test-number {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--gmr-orange);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.btn-view {
+  background: transparent;
+  border: 1px solid var(--gmr-mid-gray);
+  color: var(--gmr-light-gray);
+  width: 80px;
+  height: 32px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.15s;
+}
+
+.btn-view:hover {
+  border-color: var(--gmr-orange);
+  color: var(--gmr-orange);
+}
+
+/* --- LOG DETAIL MODAL --- */
+.log-detail-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.log-detail-card {
+  background: var(--gmr-dark-gray);
+  border: 1px solid var(--gmr-mid-gray);
+  border-top: 3px solid var(--gmr-orange);
+  border-radius: 6px;
+  width: 100%;
+  max-width: 860px;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.log-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--gmr-mid-gray);
+}
+
+.log-detail-title {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gmr-white);
+}
+
+.btn-close {
+  background: transparent;
+  border: 1px solid var(--gmr-mid-gray);
+  color: var(--gmr-muted);
+  width: 32px;
+  height: 32px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.btn-close:hover {
+  border-color: var(--gmr-orange);
+  color: var(--gmr-orange);
+}
+
+.log-detail-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding: 24px;
+}
+
+.log-detail-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.stat-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--gmr-muted);
+}
+
+.stat-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gmr-white);
+}
+
+.log-detail-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  border-radius: 4px;
+  overflow: hidden;
+  min-height: 200px;
+}
+
+.log-detail-image img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.no-image {
+  color: var(--gmr-muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 600px) {
+  .log-detail-body {
+    grid-template-columns: 1fr;
+  }
+}
 
 .table-wrapper table {
   overflow-y: overlay;
@@ -806,19 +971,17 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 }
 
 /* Target the first row of your table */
-.log-table thead tr, 
 .log-table {
-  background-color: #1a1a1a; /* Match your sidebar/panel color */
-  position: sticky;          /* Recommended so it stays visible while scrolling */
-  top: 0;
-  z-index: 10;
   border-radius: 4px;
 }
 
-/* Ensure the header text has proper padding so it doesn't look crowded */
 .log-table th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: #1a1a1a;
   padding: 10px 5px;
-  color: var(--gmr-orange); /* Use your orange variable */
+  color: var(--gmr-orange);
   text-align: center;
   border-bottom: 2px solid #333;
 }
