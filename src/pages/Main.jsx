@@ -7,7 +7,8 @@ import config from '../config';
 export default function Main({ plcStatus, socket }) {
   const { readBuffer, writeBuffer, connected } = plcStatus;
 
-  const robotInCycle = (plcStatus.readBuffer[250] >> 1) & 1;
+  const robotReady = (plcStatus.readBuffer[50] >> 2) & 1; // Register 250 → buf index 50, bit 2
+  const robotAtHome = (plcStatus.readBuffer[50] >> 0) & 1; // Register 250 → buf index 50, bit 0
 
   // --- TIMER STATE (Moved here to prevent resets) ---
   const [plcTimer, setplcTimer] = useState(config.PLC_TIMEOUT_MINUTES * 60);
@@ -59,8 +60,8 @@ export default function Main({ plcStatus, socket }) {
             {[1, 2, 3].map((progId) => (
               <div 
                 key={progId}
-                className={`program-card ${currentProgram === progId ? 'active' : ''} ${!connected ? 'locked' : ''}`}
-                onClick={() => connected && handleSet(41, progId)}
+                className={`program-card ${currentProgram === progId ? 'active' : ''} ${(!connected || !robotAtHome || !plcEnabledBit) ? 'locked' : ''}`}
+                onClick={() => (connected && robotAtHome && plcEnabledBit) && handleSet(41, progId)}
               >
                 <div className="img-container">
                   <img src={`/assets/prog${progId}.png`} alt={`Prog ${progId}`} />
@@ -72,7 +73,7 @@ export default function Main({ plcStatus, socket }) {
               </div>
             ))}
           </div>
-          <button className="btn-start-cycle" disabled={!connected && !robotInCycle && !plcEnabledBit} onClick={() => handlePulse(42, 1)}>
+          <button className="btn-start-cycle" disabled={!connected || !robotReady || !robotAtHome || !plcEnabledBit} onClick={() => handlePulse(42, 1)}>
             START ROBOT CYCLE
           </button>
         </section>

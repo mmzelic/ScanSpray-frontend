@@ -330,19 +330,55 @@ button {
 .btn-on { background: var(--gmr-orange); color: white; width: 100px; box-shadow: 0 0 10px rgba(243, 111, 33, 0.3); }
 
 input {
-  background: var(--gmr-black);
+  background: var(--gmr-dark-gray);
   border: 1px solid var(--gmr-mid-gray);
   color: white;
-  padding: 6px;
+  padding: 10px 8px;
   width: 65px;
-  font-size: 13px;
+  height: 42px;
+  font-size: 15px;
+  font-weight: 600;
   border-radius: 4px;
   text-align: center;
+  transition: border-color 0.15s;
 }
 
-.btn-set { background: var(--gmr-mid-gray); color: white; width: 60px; }
+input:focus {
+  outline: none;
+  border-color: var(--gmr-orange);
+}
+
+.btn-set {
+  background: var(--gmr-mid-gray);
+  color: white;
+  width: 70px;
+  height: 42px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.btn-set:hover:not(:disabled) {
+  background: var(--gmr-orange);
+}
 
 .system-locked { filter: grayscale(0.8); opacity: 0.7; pointer-events: none; }
+
+.program-card.locked {
+  opacity: 0.35;
+  filter: grayscale(1);
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.btn-start-cycle:disabled {
+  opacity: 0.3;
+  filter: grayscale(1);
+  border-color: var(--gmr-muted);
+  color: var(--gmr-muted);
+  cursor: not-allowed;
+}
 input:disabled { background-color: #0a0a0a !important; color: #444; }
 
 /* Hide Spinners */
@@ -487,27 +523,25 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 }
 
 .img-container {
-  width: 100%;       /* Fill the card width */
-  height: 240px;
+  width: 100%;
+  aspect-ratio: 1;
   position: relative;
   border-radius: 4px;
-  background: black;
-  display: flex;
-  padding: 4px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
+  background: #000;
   overflow: hidden;
 }
 
 .img-container img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* This crops the image to fill the box perfectly */
-  opacity: 0.5; /* Dimmed slightly to look industrial */
+  object-fit: cover;
+  object-position: top center;
+  opacity: 0.5;
   transition: opacity 0.3s ease;
   display: block;
+  /* Force GPU compositing — prevents iOS Safari from dropping images on re-mount */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 .program-card.active img {
@@ -680,22 +714,42 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 }
 
 @media (max-width: 1024px) {
-  
- .parameters-zone {
+
+  .parameters-zone {
     display: flex;
-    flex-direction: row; /* Stack vertically instead of side-by-side */
+    flex-direction: row;
     gap: 15px;
     width: 100%;
   }
 
   .param-group {
     flex: 1;
-    min-width: 0; /* Prevents the box from pushing past its 50% limit */
-    width: 100% !important; /* Force full width */
-    max-width: 100%;
+    min-width: 0;
+    max-width: 50%;
     box-sizing: border-box;
     padding: 15px;
-    overflow: hidden; /* Prevent internal elements from pushing out */
+  }
+
+  /* Stack label above input for all param rows — keeps both sections aligned */
+  .param-group .row {
+    flex-direction: column;
+    align-items: flex-start;
+    white-space: normal;
+    gap: 8px;
+  }
+
+  .param-group .label-group-inline {
+    white-space: normal;
+    flex-shrink: 1;
+  }
+
+  .param-group .control-group {
+    width: 100%;
+  }
+
+  .param-group .control-group input {
+    flex: 1;
+    width: auto;
   }
 
   /* Ensure the InputRow (slider/input) doesn't overflow */
