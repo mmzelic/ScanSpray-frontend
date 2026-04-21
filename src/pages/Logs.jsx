@@ -40,7 +40,7 @@ export default function Logs() {
             {logs.map((log, i) => (
               <tr key={i}>
                 <td className="test-number">#{String(log.TestNumber).padStart(4, '0')}</td>
-                <td>{log.Date}</td>
+                <td><span>{log.Date}</span><span className="log-time">{log.StartTime}</span></td>
                 <td>
                   <button className="btn-view" onClick={() => setSelected(log)}>
                     VIEW
@@ -68,8 +68,10 @@ export default function Logs() {
                 <StatRow label="End Time"      value={selected.EndTime} />
                 <StatRow label="Duration"      value={`${selected['Duration(s)']} s`} highlight />
                 <StatRow label="Robot Speed"   value={`${selected.Speed} mm/s`} />
-                <StatRow label="Atomizing Air" value={selected.AtomAir} />
-                <StatRow label="Fan Air"       value={selected.FanAir} />
+                <StatRow label="Atomizing Air"      value={selected.AtomAir} />
+                <StatRow label="Fan Air"            value={selected.FanAir} />
+                <StatRow label="Rel. Humidity"      value={selected.Humidity ? `${selected.Humidity} %` : '—'} />
+                <StatRow label="Temperature"        value={selected.Temperature ? `${selected.Temperature} °F` : '—'} />
                 <StatRow label="Program"       value={selected.Program} />
                 <StatRow label="2KS Recipe"     value={selected.Recipe} />
               </div>

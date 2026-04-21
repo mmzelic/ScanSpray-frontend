@@ -51,4 +51,6 @@ export const reads = [
   { name: "Robot Ready", addr: 250, bit: 2 },
   { name: "PLC Version", addr: 299, bit: null },
   { name: "Zivid Capture Snapshot", addr: 250, bit: 3 },
+  { name: "Relative Humidity", addr: 260 },
+  { name: "Temperature °F", addr: 261 }
 ];

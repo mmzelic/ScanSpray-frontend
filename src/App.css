@@ -38,9 +38,10 @@ html, body {
   flex: 1;
   display: block;
   overflow-y: auto;
-  overflow-x: hidden; /* CRITICAL: Prevents any side-to-side wiggle */
+  overflow-x: hidden;
   background-color: var(--gmr-black);
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: none; /* Prevents iOS Safari pull-to-refresh */
   width: 100%;
   position: relative;
   padding-bottom: 60px;
@@ -260,6 +261,20 @@ html, body {
   text-transform: uppercase;
   cursor: pointer;
   border-radius: 4px;
+  transition: all 0.15s;
+}
+
+.btn-refresh:hover {
+  border-color: var(--gmr-orange);
+  color: var(--gmr-orange);
+}
+
+.log-time {
+  display: block;
+  font-size: 11px;
+  color: var(--gmr-muted);
+  font-family: 'JetBrains Mono', monospace;
+  margin-top: 2px;
 }
 
 .test-number {
