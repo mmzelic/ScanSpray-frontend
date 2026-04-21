@@ -9,6 +9,7 @@ export default function Main({ plcStatus, socket }) {
 
   const robotReady = (plcStatus.readBuffer[50] >> 2) & 1; // Register 250 → buf index 50, bit 2
   const robotAtHome = (plcStatus.readBuffer[50] >> 0) & 1; // Register 250 → buf index 50, bit 0
+  const useZivid = (writeBuffer[43] >> 0) & 1;
 
   // --- TIMER STATE (Moved here to prevent resets) ---
   const [plcTimer, setplcTimer] = useState(config.PLC_TIMEOUT_MINUTES * 60);
@@ -88,6 +89,29 @@ export default function Main({ plcStatus, socket }) {
              <h3>Robot Motion</h3>
              <InputRow name={analog[5].name} reg={analog[5].reg} min={analog[5].min} max={analog[5].max}  currentVal={writeBuffer[40]} onSet={handleSet} connected={connected} />
              <InputRow name={analog[7].name} reg={analog[7].reg} min={analog[7].min} max={analog[7].max}  currentVal={writeBuffer[43]} onSet={handleSet} connected={connected} />
+          </div>
+        </section>
+
+        <section className="sensor-zone">
+          <div className="sensor-zone-header">
+            <h2>Camera &amp; Environment</h2>
+            <button
+              className={useZivid ? 'btn-on' : 'btn-off'}
+              onClick={() => handleToggle(43, 0)}
+              disabled={!connected}
+            >
+              Use Zivid
+            </button>
+          </div>
+          <div className="sensor-readings">
+            <div className="sensor-card">
+              <span className="sensor-name">Temperature</span>
+              <span className="sensor-value">{(readBuffer[60] / 100).toFixed(2)} <span className="sensor-unit">°F</span></span>
+            </div>
+            <div className="sensor-card">
+              <span className="sensor-name">Rel. Humidity</span>
+              <span className="sensor-value">{(readBuffer[61] / 100).toFixed(2)} <span className="sensor-unit">%</span></span>
+            </div>
           </div>
         </section>
 

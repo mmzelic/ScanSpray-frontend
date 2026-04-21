@@ -44,7 +44,7 @@ html, body {
   overscroll-behavior-y: none; /* Prevents iOS Safari pull-to-refresh */
   width: 100%;
   position: relative;
-  padding-bottom: 60px;
+  padding-bottom: 20px;
 }
 /* --- LOGIN SCREEN --- */
 .login-overlay {
@@ -226,17 +226,14 @@ html, body {
 
 .btn-start-cycle {
   width: 100%;
-  height: 50px;
+  height: 42px;
   color: var(--gmr-orange);
   border: 2px solid var(--gmr-orange);
-  font-size: 16px;
   font-weight: 900;
   cursor: pointer;
-  margin-top: 10px;
-  /* --- START BUTTON SPACING --- */
-  margin-top: 10px;
+  margin-top: 8px;
   background: transparent;
-  font-size: 18px;
+  font-size: 16px;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
@@ -471,9 +468,9 @@ h2 {
   color: var(--gmr-orange);
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  margin: 0 0 12px 0;
+  margin: 0 0 8px 0;
   border-bottom: 1px solid var(--gmr-mid-gray);
-  padding-bottom: 6px;
+  padding-bottom: 4px;
 }
 
 .row {
@@ -573,20 +570,20 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   margin: 0;
   display: flex;
   flex-direction: column; /* For Tablet/Mobile */
-  padding: 15px;
+  padding: 10px;
 }
 
 .operation-zone {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
 }
 
 /* --- PANEL BOXING (Fixes Air/Motion/Alerts) --- */
 .program-selector, .param-group, .alerts-zone, .status-sidebar .panel {
   background: var(--gmr-dark-gray);
   border: 1px solid var(--gmr-mid-gray);
-  padding: 25px; /* Consistent internal breathing room */
+  padding: 14px 18px;
   border-radius: 4px;
 }
 
@@ -598,7 +595,7 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   color: var(--gmr-white);
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
 }
 
 /* --- FIXING SIDEBAR OVERLAP (System Flags / Gun & Mix) --- */
@@ -612,7 +609,7 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   display: flex;
   justify-content: space-between; /* Pushes label left, button right */
   align-items: center;
-  padding: 12px 0; /* Vertical spacing only */
+  padding: 7px 0;
   border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
@@ -630,13 +627,13 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100px;
+  min-height: 55px;
 }
 
 .alerts-zone h2 {
   width: 100%;
   text-align: center;
-  margin-bottom: 15px;
+  margin-bottom: 8px;
 }
 
 .alert-box {
@@ -658,11 +655,11 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   display: flex;
   justify-content: space-between; /* Pushes Label left, Controls right */
   align-items: center;
-  gap: 15px;
-  padding: 12px 0;
+  gap: 10px;
+  padding: 6px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   white-space: nowrap; /* PREVENTS TEXT WRAPPING */
-  margin-bottom: 15px;
+  margin-bottom: 6px;
   width: 100%;
 }
 
@@ -704,7 +701,7 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
 .img-container {
   width: 100%;
-  aspect-ratio: 1;
+  aspect-ratio: 4 / 3;
   position: relative;
   border-radius: 4px;
   background: #000;
@@ -741,11 +738,11 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 .program-grid {
   display: grid;
   /* Forces exactly 3 columns on a single line */
-  grid-template-columns: repeat(3, 1fr); 
-  gap: 10px; /* Reduced gap to save horizontal space on tablets */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
   width: 100%;
   box-sizing: border-box;
-  margin-top: 15px;
+  margin-top: 8px;
 }
 
 
@@ -867,15 +864,15 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   .main-layout {
     display: grid;
     grid-template-columns: 2fr 1fr; /* Main controls | Sidebar */
-    gap: 20px;
+    gap: 15px;
     width: 100%;
-    margin: 0; /* REMOVES the right-shift */
-    padding: 20px;
-    box-sizing: border-box; /* Includes padding in the width calculation */
+    margin: 0;
+    padding: 15px;
+    box-sizing: border-box;
   }
 
   .parameters-zone :first-child{
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
 }
 
@@ -999,6 +996,63 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   color: var(--gmr-orange);
   text-align: center;
   border-bottom: 2px solid #333;
+}
+
+/* --- SENSOR / CAMERA ZONE --- */
+.sensor-zone {
+  background: var(--gmr-dark-gray);
+  border: 1px solid var(--gmr-mid-gray);
+  padding: 12px 18px;
+  border-radius: 4px;
+}
+
+.sensor-zone-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.sensor-zone-header h2 {
+  margin: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.sensor-readings {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.sensor-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--gmr-mid-gray);
+  border-radius: 4px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.sensor-name {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--gmr-muted);
+}
+
+.sensor-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gmr-white);
+}
+
+.sensor-unit {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--gmr-muted);
 }
 
 .log-table {

@@ -15,7 +15,8 @@ export const digital = [
   { name: "Flag3", reg: 42, bit: 4, type: "toggle" },
   { name: "Flag8", reg: 42, bit: 5, type: "toggle" },
   { name: "plcEnabled", reg: 42, bit: 6, type: "toggle" },
-  { name: "Zivid Image Captured", reg: 42, bit: 7, type: "toggle" }
+  { name: "Zivid Image Captured", reg: 42, bit: 7, type: "toggle" },
+  { name: "Use zivid", reg: 43, bit: 0, type: "toggle" }
 ];
 
 export const analog = [
@@ -51,6 +52,6 @@ export const reads = [
   { name: "Robot Ready", addr: 250, bit: 2 },
   { name: "PLC Version", addr: 299, bit: null },
   { name: "Zivid Capture Snapshot", addr: 250, bit: 3 },
-  { name: "Relative Humidity", addr: 260 },
-  { name: "Temperature °F", addr: 261 }
+  { name: "Temperature °F", addr: 260 },
+  { name: "Relative Humidity", addr: 261 }
 ];

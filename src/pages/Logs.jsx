@@ -70,8 +70,8 @@ export default function Logs() {
                 <StatRow label="Robot Speed"   value={`${selected.Speed} mm/s`} />
                 <StatRow label="Atomizing Air"      value={selected.AtomAir} />
                 <StatRow label="Fan Air"            value={selected.FanAir} />
-                <StatRow label="Rel. Humidity"      value={selected.Humidity ? `${selected.Humidity} %` : '—'} />
-                <StatRow label="Temperature"        value={selected.Temperature ? `${selected.Temperature} °F` : '—'} />
+                <StatRow label="Rel. Humidity"      value={selected.Humidity ? `${(selected.Humidity / 100).toFixed(2)} %` : '—'} />
+                <StatRow label="Temperature"        value={selected.Temperature ? `${(selected.Temperature / 100).toFixed(2)} °F` : '—'} />
                 <StatRow label="Program"       value={selected.Program} />
                 <StatRow label="2KS Recipe"     value={selected.Recipe} />
               </div>
